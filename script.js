@@ -283,4 +283,79 @@
       if (!sel) input.focus();
     });
   });
+  /* ---------- Show hero artwork only once the image has really loaded ---------- */
+  safe(function () {
+    var hero = $("#home");
+    var img = $(".hero-art");
+    if (!hero || !img) return;
+    function ok() { if (img.naturalWidth) hero.classList.add("has-art"); }
+    if (img.complete) ok(); else img.addEventListener("load", ok);
+  });
+
+  /* ---------- Quotes: rendered from quotes.json ---------- */
+  safe(function () {
+    var grid = $("#quote-grid");
+    var status = $("#quote-status");
+    if (!grid) return;
+
+    function say(msg) { if (status) status.textContent = msg; }
+
+    function clean(v, max) { return typeof v === "string" ? v.trim().slice(0, max) : ""; }
+
+    function card(q, n) {
+      var fig = document.createElement("figure");
+      fig.className = "qcard";
+      fig.style.setProperty("--n", n);
+
+      var bq = document.createElement("blockquote");
+      bq.textContent = "\u201C" + q.text + "\u201D";
+      fig.appendChild(bq);
+
+      if (q.character || q.anime) {
+        var cap = document.createElement("figcaption");
+        cap.appendChild(document.createTextNode(q.character ? "\u2014 " + q.character : "\u2014 "));
+        if (q.anime) {
+          if (q.character) cap.appendChild(document.createTextNode(" "));
+          var cite = document.createElement("cite");
+          cite.textContent = "(" + q.anime + ")";
+          cap.appendChild(cite);
+        }
+        fig.appendChild(cap);
+      }
+
+      if (q.description) {
+        var d = document.createElement("p");
+        d.className = "qdesc";
+        d.textContent = q.description;
+        fig.appendChild(d);
+      }
+      return fig;
+    }
+
+    if (!window.fetch) { say("Quotes couldn't load in this browser."); return; }
+
+    fetch("./quotes.json", { cache: "no-cache" })
+      .then(function (r) { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
+      .then(function (data) {
+        var list = Array.isArray(data) ? data : (data && data.quotes);
+        if (!Array.isArray(list)) throw new Error("bad format");
+
+        var cards = [];
+        list.forEach(function (item) {
+          if (!item || typeof item !== "object") return;
+          var q = {
+            text: clean(item.text, 600),
+            character: clean(item.character, 80),
+            anime: clean(item.anime, 80),
+            description: clean(item.description, 300)
+          };
+          if (q.text) cards.push(card(q, cards.length));
+        });
+
+        if (!cards.length) { say("No quotes to show yet."); return; }
+        grid.textContent = "";
+        cards.forEach(function (c) { grid.appendChild(c); });
+      })
+      .catch(function () { say("Couldn't load quotes right now."); });
+  });
 })();
