@@ -36,3 +36,33 @@ type();
 
 document.querySelector("#year").textContent =
   new Date().getFullYear();
+
+/* Animate sections as they enter the viewport */
+const revealElements = document.querySelectorAll(
+  ".section, .project-card, .journey-list > div"
+);
+
+revealElements.forEach((element) => {
+  element.classList.add("reveal");
+});
+
+if ("IntersectionObserver" in window) {
+  const observer = new IntersectionObserver(
+    (entries, observer) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    {
+      threshold: 0.12,
+      rootMargin: "0px 0px -40px 0px"
+    }
+  );
+
+  revealElements.forEach((element) => observer.observe(element));
+} else {
+  revealElements.forEach((element) => element.classList.add("visible"));
+}
