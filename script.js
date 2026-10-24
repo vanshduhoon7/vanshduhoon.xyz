@@ -1,394 +1,286 @@
 /* ==========================================
-   VANSH — Portfolio script
-   Every feature is wrapped in safe(), so one failure
-   can never stop the rest of the page from working.
+   VANSH: portfolio script
+   Each feature is wrapped in safe(), so one failure
+   cannot break the rest of the page.
    ========================================== */
-
 (function () {
   "use strict";
 
   var root = document.documentElement;
-  var reduceMotion = !!(window.matchMedia &&
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+  var reduceMotion = !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+  var $ = function (s) { return document.querySelector(s); };
+  var $$ = function (s) { return Array.prototype.slice.call(document.querySelectorAll(s)); };
+  function safe(fn) { try { fn(); } catch (e) { /* keep going */ } }
 
-  function $(selector) { return document.querySelector(selector); }
+  /* ---------- Year + clock (real browser local time) ---------- */
+  safe(function () {
+    var y = $("#year");
+    if (y) y.textContent = String(new Date().getFullYear());
 
-  function safe(name, fn) {
-    try { fn(); } catch (err) { /* keep the page working even if one feature fails */ }
-  }
-
-  /* ---------- Marks JS as available (enables the mobile menu button) ---------- */
-  root.classList.add("js");
-
-  /* ---------- Copyright year ---------- */
-  safe("year", function () {
-    var year = $("#year");
-    if (year) year.textContent = String(new Date().getFullYear());
+    var c = $("#clock");
+    if (!c) return;
+    var fmt = new Intl.DateTimeFormat(undefined, { hour: "2-digit", minute: "2-digit", hourCycle: "h23" });
+    function tick() { c.textContent = fmt.format(new Date()); }
+    tick();
+    setInterval(tick, 15000);
   });
 
-  /* ---------- HUD clock: real local time from the browser ---------- */
-  safe("clock", function () {
-    var clock = $("#hud-clock");
-    if (!clock) return;
-
-    var formatter = new Intl.DateTimeFormat(undefined, {
-      hour: "2-digit", minute: "2-digit", second: "2-digit", hourCycle: "h23"
-    });
-
-    function update() { clock.textContent = formatter.format(new Date()); }
-    update();
-    setInterval(update, 1000);
-  });
-
-  /* ---------- Mobile navigation ---------- */
-  safe("nav", function () {
-    var toggle = $("#nav-toggle");
-    var menu = $("#nav-menu");
-    if (!toggle || !menu) return;
-
-    function setOpen(open) {
-      menu.classList.toggle("open", open);
-      toggle.setAttribute("aria-expanded", open ? "true" : "false");
-    }
-
-    toggle.addEventListener("click", function () {
-      setOpen(!menu.classList.contains("open"));
-    });
-
-    menu.addEventListener("click", function (event) {
-      if (event.target.closest && event.target.closest("a")) setOpen(false);
-    });
-
-    document.addEventListener("keydown", function (event) {
-      if (event.key === "Escape" && menu.classList.contains("open")) {
-        setOpen(false);
-        toggle.focus();
-      }
-    });
-
-    window.addEventListener("resize", function () {
-      if (window.innerWidth > 820) setOpen(false);
-    });
-  });
-
-  /* ---------- Highlight the nav link of the section in view ---------- */
-  safe("active-link", function () {
+  /* ---------- Highlight current workspace link ---------- */
+  safe(function () {
     if (!("IntersectionObserver" in window)) return;
-
-    var links = Array.prototype.slice.call(document.querySelectorAll(".nav-links a"));
+    var links = $$(".ws a");
     var map = {};
-    links.forEach(function (link) {
-      var id = (link.getAttribute("href") || "").replace("#", "");
-      if (id) map[id] = link;
-    });
+    links.forEach(function (a) { map[(a.getAttribute("href") || "").slice(1)] = a; });
 
-    var observer = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (!entry.isIntersecting) return;
-        links.forEach(function (link) {
-          link.classList.remove("active");
-          link.removeAttribute("aria-current");
-        });
-        var active = map[entry.target.id];
-        if (active) {
-          active.classList.add("active");
-          active.setAttribute("aria-current", "location");
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting || !map[en.target.id]) return;
+        links.forEach(function (a) { a.classList.remove("active"); a.removeAttribute("aria-current"); });
+        var a = map[en.target.id];
+        a.classList.add("active");
+        a.setAttribute("aria-current", "location");
+        if (a.scrollIntoView && a.parentNode.scrollWidth > a.parentNode.clientWidth) {
+          a.parentNode.scrollLeft = a.offsetLeft - 20;
         }
       });
     }, { rootMargin: "-45% 0px -50% 0px" });
 
     Object.keys(map).forEach(function (id) {
-      var section = document.getElementById(id);
-      if (section) observer.observe(section);
+      var s = document.getElementById(id);
+      if (s) io.observe(s);
     });
   });
 
-  /* ---------- Terminal typing effect ---------- */
-  safe("typing", function () {
-    var output = $("#typed");
-    if (!output || reduceMotion) return; // static text stays in place
-
-    var phrases = [
-      "whoami",
-      "learning web security",
-      "python3 security_tool.py",
-      "solving CTF challenges",
-      "understanding how things work"
-    ];
-
-    var phraseIndex = 0;
-    var charIndex = 0;
-    var deleting = false;
-
-    output.textContent = "";
-
-    function tick() {
-      if (document.hidden) { setTimeout(tick, 500); return; }
-
-      var phrase = phrases[phraseIndex];
-      output.textContent = phrase.slice(0, charIndex);
-
-      var delay;
-      if (!deleting && charIndex < phrase.length) {
-        charIndex++;
-        delay = 60 + Math.random() * 40;
-      } else if (!deleting) {
-        deleting = true;
-        delay = 1400;
-      } else if (charIndex > 0) {
-        charIndex--;
-        delay = 28;
-      } else {
-        deleting = false;
-        phraseIndex = (phraseIndex + 1) % phrases.length;
-        delay = 400;
-      }
-      setTimeout(tick, delay);
-    }
-
-    tick();
-  });
-
-  /* ---------- Scroll reveal ---------- */
-  safe("reveal", function () {
-    var items = Array.prototype.slice.call(document.querySelectorAll(".reveal"));
+  /* ---------- Scroll reveal (hidden state only after JS is ready) ---------- */
+  safe(function () {
+    var items = $$(".reveal");
     if (!items.length) return;
-
-    function showAll() {
-      items.forEach(function (el) { el.classList.add("visible"); });
-    }
-
-    if (reduceMotion || !("IntersectionObserver" in window)) {
-      showAll();
-      return;
-    }
+    function showAll() { items.forEach(function (el) { el.classList.add("visible"); }); }
+    if (reduceMotion || !("IntersectionObserver" in window)) { showAll(); return; }
 
     var fired = false;
-
-    var observer = new IntersectionObserver(function (entries) {
+    var io = new IntersectionObserver(function (entries) {
       fired = true;
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("visible");
-          observer.unobserve(entry.target);
-        }
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { en.target.classList.add("visible"); io.unobserve(en.target); }
       });
     }, { threshold: 0.1, rootMargin: "0px 0px -40px 0px" });
 
-    // Hidden state is only switched on now that the observer exists.
     root.classList.add("js-reveal");
-    items.forEach(function (el) { observer.observe(el); });
-
-    // Safety net: if the observer never reports back, show everything.
-    setTimeout(function () {
-      if (!fired) showAll();
-    }, 1500);
+    items.forEach(function (el) { io.observe(el); });
+    setTimeout(function () { if (!fired) showAll(); }, 1500);
   });
 
-  /* ---------- Hero: mouse glow + digital rain + particle network ---------- */
-  safe("hero-effects", function () {
-    if (reduceMotion) return;
+  /* ---------- Window interactions: click to focus, red dot to collapse ---------- */
+  safe(function () {
+    var wins = $$("[data-win]");
+    function focusWin(w) {
+      wins.forEach(function (x) { x.classList.remove("focused"); });
+      w.classList.add("focused");
+    }
+    wins.forEach(function (w) {
+      w.addEventListener("pointerdown", function () { focusWin(w); });
+      w.addEventListener("focusin", function () { focusWin(w); });
+      var btn = w.querySelector("button.wdot");
+      if (btn) btn.addEventListener("click", function () {
+        var collapsed = w.classList.toggle("collapsed");
+        btn.setAttribute("aria-expanded", collapsed ? "false" : "true");
+        btn.setAttribute("aria-label", collapsed ? "Expand window" : "Collapse window");
+      });
+    });
+    var term = $("#term");
+    if (term) term.classList.add("focused");
+  });
 
+  /* ---------- Anime-style sky: falling petals, moon parallax, pause off-screen ---------- */
+  safe(function () {
     var hero = $("#home");
-    var canvas = $("#cyber-canvas");
-    if (!hero || !canvas || !canvas.getContext) return;
+    var sky = $(".sky");
+    if (!hero || !sky || reduceMotion) return;
 
-    var ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    var FRAME_MS = 1000 / 30;           // 30 fps cap
-    var CHARS = "01ABCDEF0123456789<>/{}[]#$%&*+=";
-
-    var w = 0, h = 0, fontSize = 14, colWidth = 20;
-    var columns = [], particles = [];
-    var rafId = 0, last = 0, running = false;
-    var heroVisible = true;
-    var mouse = { x: -9999, y: -9999 };
-
-    function randomChar() { return CHARS.charAt((Math.random() * CHARS.length) | 0); }
-
-    function resetColumn(col, initial) {
-      col.len = 8 + ((Math.random() * 10) | 0);
-      col.speed = 2.5 + Math.random() * 4;
-      col.y = initial ? Math.random() * h : -Math.random() * h * 0.6;
-      col.chars = [];
-      for (var i = 0; i < col.len; i++) col.chars.push(randomChar());
+    var count = window.innerWidth < 640 ? 7 : 13;
+    for (var i = 0; i < count; i++) {
+      var p = document.createElement("span");
+      p.className = "petal";
+      p.style.left = (Math.random() * 100).toFixed(1) + "%";
+      p.style.setProperty("--t", (14 + Math.random() * 12).toFixed(1) + "s");
+      p.style.setProperty("--dl", (-Math.random() * 20).toFixed(1) + "s");
+      p.style.setProperty("--dx", ((Math.random() - 0.3) * 160).toFixed(0) + "px");
+      p.style.transform = "scale(" + (0.7 + Math.random() * 0.8).toFixed(2) + ")";
+      sky.appendChild(p);
     }
 
-    function build() {
-      var small = w < 560;
-      colWidth = small ? 26 : 20;
-
-      columns = [];
-      var count = Math.floor(w / colWidth);
-      for (var i = 0; i < count; i++) {
-        var col = { x: i * colWidth + 3 };
-        resetColumn(col, true);
-        columns.push(col);
-      }
-
-      var total = Math.max(16, Math.min(small ? 28 : 56, Math.floor((w * h) / 20000)));
-      particles = [];
-      for (var p = 0; p < total; p++) {
-        particles.push({
-          x: Math.random() * w,
-          y: Math.random() * h,
-          vx: (Math.random() - 0.5) * 0.45,
-          vy: (Math.random() - 0.5) * 0.45,
-          r: 0.8 + Math.random() * 1.3
-        });
-      }
-    }
-
-    function resize() {
-      var rect = hero.getBoundingClientRect();
-      if (!rect.width || !rect.height) return;
-
-      var dpr = Math.min(window.devicePixelRatio || 1, 1.5);
-      w = rect.width;
-      h = rect.height;
-
-      canvas.width = Math.round(w * dpr);
-      canvas.height = Math.round(h * dpr);
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      ctx.font = fontSize + "px ui-monospace, Menlo, Consolas, monospace";
-      ctx.textBaseline = "top";
-
-      build();
-    }
-
-    function drawRain() {
-      for (var i = 0; i < columns.length; i++) {
-        var col = columns[i];
-        col.y += col.speed;
-
-        if (Math.random() < 0.15) col.chars[(Math.random() * col.len) | 0] = randomChar();
-
-        for (var k = 0; k < col.len; k++) {
-          var y = col.y - k * fontSize;
-          if (y < -fontSize || y > h) continue;
-
-          ctx.fillStyle = k === 0
-            ? "rgba(190, 238, 255, 0.7)"
-            : "rgba(40, 150, 255, " + (0.28 * (1 - k / col.len)).toFixed(3) + ")";
-          ctx.fillText(col.chars[k], col.x, y);
-        }
-
-        if (col.y - col.len * fontSize > h) resetColumn(col, false);
-      }
-    }
-
-    function drawNetwork() {
-      var maxDist = w < 560 ? 85 : 120;
-      var maxSq = maxDist * maxDist;
-      var mouseDist = 150;
-
-      for (var i = 0; i < particles.length; i++) {
-        var a = particles[i];
-
-        a.x += a.vx;
-        a.y += a.vy;
-        if (a.x < 0 || a.x > w) a.vx *= -1;
-        if (a.y < 0 || a.y > h) a.vy *= -1;
-
-        ctx.beginPath();
-        ctx.arc(a.x, a.y, a.r, 0, Math.PI * 2);
-        ctx.fillStyle = "rgba(139, 223, 255, 0.85)";
-        ctx.fill();
-
-        for (var j = i + 1; j < particles.length; j++) {
-          var b = particles[j];
-          var dx = a.x - b.x;
-          var dy = a.y - b.y;
-          var sq = dx * dx + dy * dy;
-
-          if (sq < maxSq) {
-            ctx.beginPath();
-            ctx.moveTo(a.x, a.y);
-            ctx.lineTo(b.x, b.y);
-            ctx.strokeStyle = "rgba(50, 151, 255, " + (0.2 * (1 - sq / maxSq)).toFixed(3) + ")";
-            ctx.lineWidth = 0.6;
-            ctx.stroke();
-          }
-        }
-
-        var mx = a.x - mouse.x;
-        var my = a.y - mouse.y;
-        var md = Math.sqrt(mx * mx + my * my);
-        if (md < mouseDist) {
-          ctx.beginPath();
-          ctx.moveTo(a.x, a.y);
-          ctx.lineTo(mouse.x, mouse.y);
-          ctx.strokeStyle = "rgba(155, 231, 255, " + (0.28 * (1 - md / mouseDist)).toFixed(3) + ")";
-          ctx.lineWidth = 0.7;
-          ctx.stroke();
-        }
-      }
-    }
-
-    function frame(t) {
-      rafId = requestAnimationFrame(frame);
-      if (t - last < FRAME_MS) return;
-      last = t;
-
-      ctx.clearRect(0, 0, w, h);
-      drawRain();
-      drawNetwork();
-    }
-
-    function start() {
-      if (running || document.hidden || !heroVisible || !w) return;
-      running = true;
-      rafId = requestAnimationFrame(frame);
-    }
-
-    function stop() {
-      running = false;
-      cancelAnimationFrame(rafId);
-    }
-
-    /* Pointer: moves the glow and feeds the particle network */
-    var glowPending = false;
-    hero.addEventListener("pointermove", function (event) {
-      var rect = hero.getBoundingClientRect();
-      mouse.x = event.clientX - rect.left;
-      mouse.y = event.clientY - rect.top;
-
-      if (!glowPending) {
-        glowPending = true;
-        requestAnimationFrame(function () {
-          glowPending = false;
-          hero.style.setProperty("--mx", mouse.x + "px");
-          hero.style.setProperty("--my", mouse.y + "px");
-        });
-      }
-    });
-
-    hero.addEventListener("pointerleave", function () {
-      mouse.x = -9999;
-      mouse.y = -9999;
-    });
-
-    /* Pause when the tab is hidden or the hero is scrolled out of view */
-    document.addEventListener("visibilitychange", function () {
-      if (document.hidden) stop(); else start();
+    var pending = false, nx = 0, ny = 0;
+    hero.addEventListener("pointermove", function (e) {
+      var r = hero.getBoundingClientRect();
+      nx = (e.clientX - r.left) / r.width - 0.5;
+      ny = (e.clientY - r.top) / r.height - 0.5;
+      if (pending) return;
+      pending = true;
+      requestAnimationFrame(function () {
+        pending = false;
+        hero.style.setProperty("--px", nx.toFixed(3));
+        hero.style.setProperty("--py", ny.toFixed(3));
+      });
     });
 
     if ("IntersectionObserver" in window) {
-      new IntersectionObserver(function (entries) {
-        heroVisible = entries[0].isIntersecting;
-        if (heroVisible) start(); else stop();
-      }, { threshold: 0 }).observe(hero);
+      new IntersectionObserver(function (en) {
+        hero.classList.toggle("paused", !en[0].isIntersecting);
+      }).observe(hero);
+    }
+    document.addEventListener("visibilitychange", function () {
+      hero.classList.toggle("paused", document.hidden);
+    });
+  });
+
+  /* ---------- Simulated terminal: pre-written output only, nothing is executed ---------- */
+  safe(function () {
+    var out = $("#term-out");
+    var form = $("#term-form");
+    var input = $("#term-in");
+    var chips = $("#term-chips");
+    if (!out || !form || !input) return;
+
+    var GH = "https://github.com/vanshduhoon7";
+    var LI = "https://www.linkedin.com/in/vanshduhoon7/";
+
+    var COMMANDS = {
+      help: [
+        "Available commands:",
+        "  help      list commands",
+        "  about     who I am",
+        "  projects  what I'm building",
+        "  skills    what I'm learning",
+        "  journey   where I've been practicing",
+        "  contact   where to find me",
+        "  whoami, motto, clear",
+        "",
+        "All output is pre-written text. Nothing runs on your device."
+      ],
+      about: [
+        "Vansh: B.Tech student in AI & ML (expected graduation 2029).",
+        "Beginner cybersecurity learner, sampling every domain to see what sticks.",
+        "Leaning toward web security and bug bounty hunting.",
+        "Also into CTFs, Linux ricing, hackathons, tech communities and gaming."
+      ],
+      projects: [
+        "01  Hashcam: hackathon team project.",
+        "    Monitors AI-agent activity to stop agents from harming user data, credentials or funds.",
+        ["    ", { t: "github.com/vanshduhoon7/hashcam ↗", href: GH + "/hashcam" }],
+        "",
+        "02  Compete-Hub: in development (not finished, not deployed).",
+        "    Meant to gather CTFs, hackathons and competitions in one place.",
+        "    Built with AI-assisted development.",
+        ["    ", { t: "github.com/vanshduhoon7/Compete-hub ↗", href: GH + "/Compete-hub" }]
+      ],
+      skills: [
+        "Learning / Exploring (no proficiency bars, I'm a beginner):",
+        "  system     Linux, Kali Linux, networking, Linux rice",
+        "  web        web security, Burp Suite, PortSwigger labs",
+        "  challenges CTF practice, forensics, reverse engineering",
+        "  code       Python, AI/ML (through my degree)",
+        "  building   hackathon team projects, AI-assisted development"
+      ],
+      journey: [
+        "PortSwigger labs: solved with hints and learning resources, up to business logic vulnerabilities.",
+        "CTFs: easy-level challenges completed.",
+        "Reverse engineering: hard for me right now, and the area I most want to improve.",
+        "Currently learning: Linux/Kali, networking, Python, web security, Burp Suite, forensics, reverse engineering, CTF practice."
+      ],
+      contact: [
+        ["GitHub:   ", { t: "github.com/vanshduhoon7 ↗", href: GH }],
+        ["LinkedIn: ", { t: "linkedin.com/in/vanshduhoon7 ↗", href: LI }],
+        "No public email listed yet."
+      ],
+      whoami: ["vansh: student, beginner, serial rabbit-hole explorer."],
+      motto: ["Everything is temporary."]
+    };
+
+    function addLine(parts, cls) {
+      var div = document.createElement("div");
+      div.className = "line" + (cls ? " " + cls : "");
+      [].concat(parts).forEach(function (p) {
+        if (typeof p === "string") {
+          div.appendChild(document.createTextNode(p));
+        } else {
+          var a = document.createElement("a");
+          a.href = p.href;
+          a.target = "_blank";
+          a.rel = "noopener noreferrer";
+          a.textContent = p.t;
+          div.appendChild(a);
+        }
+      });
+      out.appendChild(div);
     }
 
-    /* Resize (debounced) */
-    var resizeTimer = 0;
-    window.addEventListener("resize", function () {
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(resize, 150);
+    function run(raw) {
+      var cmd = raw.trim().toLowerCase();
+      var echo = document.createElement("div");
+      echo.className = "line";
+      var pr = document.createElement("span");
+      pr.className = "prompt";
+      pr.textContent = "$";
+      echo.appendChild(pr);
+      echo.appendChild(document.createTextNode(" " + raw.trim()));
+      out.appendChild(echo);
+
+      if (!cmd) return;
+      if (cmd === "clear") { out.textContent = ""; return; }
+
+      if (COMMANDS[cmd]) {
+        COMMANDS[cmd].forEach(function (l) { addLine(l, ""); });
+      } else if (cmd.split(" ")[0] === "sudo") {
+        addLine("Nice try. This is a static website; there is nothing to root.", "dim");
+      } else {
+        addLine("command not found: " + cmd.slice(0, 40) + ". Try 'help'.", "dim");
+      }
+      out.scrollTop = out.scrollHeight;
+    }
+
+    /* Enable the interactive parts (they stay hidden if JS never runs) */
+    form.hidden = false;
+    if (chips) chips.hidden = false;
+
+    var history = [], hIdx = 0;
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var v = input.value;
+      if (v.trim()) { history.push(v); hIdx = history.length; }
+      run(v);
+      input.value = "";
     });
 
-    resize();
-    start();
+    input.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowUp" && history.length) {
+        e.preventDefault();
+        hIdx = Math.max(0, hIdx - 1);
+        input.value = history[hIdx];
+      } else if (e.key === "ArrowDown") {
+        e.preventDefault();
+        hIdx = Math.min(history.length, hIdx + 1);
+        input.value = history[hIdx] || "";
+      } else if (e.key === "Tab") {
+        var typed = input.value.trim().toLowerCase();
+        if (!typed) return;
+        var names = Object.keys(COMMANDS).concat("clear");
+        var hits = names.filter(function (n) { return n.indexOf(typed) === 0; });
+        if (hits.length === 1) { e.preventDefault(); input.value = hits[0]; }
+      }
+    });
+
+    if (chips) {
+      chips.addEventListener("click", function (e) {
+        var b = e.target.closest ? e.target.closest("button[data-cmd]") : null;
+        if (b) run(b.getAttribute("data-cmd"));
+      });
+    }
+
+    out.addEventListener("click", function () {
+      var sel = window.getSelection ? String(window.getSelection()) : "";
+      if (!sel) input.focus();
+    });
   });
 })();
