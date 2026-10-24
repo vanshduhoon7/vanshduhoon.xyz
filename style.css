@@ -246,19 +246,18 @@ blockquote { font-size: clamp(1.4rem, 3vw, 2rem); line-height: 1.3; letter-spaci
 .qdesc { margin-top: 10px; color: var(--muted); font-size: .9rem; }
 @media (min-width: 720px) { .quote-grid { grid-template-columns: repeat(2, 1fr); } }
 
-/* ---------- Phone: give the artwork its own visible band ---------- */
+/* ---------- Phone: artwork as its own separate banner ---------- */
 @media (max-width: 719px) {
-  .hero { padding-top: 34vh; }
-  .hero-art {
-    bottom: auto;
-    height: 60vh;
-    object-position: 58% 25%;
-    -webkit-mask-image: linear-gradient(#000 55%, transparent);
-    mask-image: linear-gradient(#000 55%, transparent);
+  .sky {
+    position: relative;
+    inset: auto;
+    width: min(1120px, calc(100% - 32px));
+    margin: 0 auto 18px;
+    aspect-ratio: 16 / 9;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: 0 0 30px #168bff22;
   }
-  .art-shade {
-    bottom: auto;
-    height: 60vh;
-    background: linear-gradient(180deg, #05091440, #050914);
-  }
+  .sky .stars, .sky .moon, .sky .ridge, .sky .petal { display: none; }
+  .art-shade { background: linear-gradient(180deg, #05091420, #05091480); }
 }
