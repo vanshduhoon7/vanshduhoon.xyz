@@ -1,4 +1,6 @@
 
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,3 +12,215 @@
   <link rel="stylesheet" href="./style.css">
   <script src="./script.js" defer></script>
 </head>
+
+<body>
+  <nav class="nav">
+    <a class="logo" href="#home" aria-label="Vansh home">
+      Vansh<span class="logo-dot">_</span>
+    </a>
+
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#projects">Projects</a>
+      <a href="#journey">Cyber Journey</a>
+    </div>
+
+    <div class="nav-socials">
+      <a class="nav-cta"
+         href="https://github.com/vanshduhoon7"
+         target="_blank"
+         rel="noopener noreferrer">
+        GitHub ↗
+      </a>
+
+      <a class="nav-cta"
+         href="https://www.linkedin.com/in/vanshduhoon7/"
+         target="_blank"
+         rel="noopener noreferrer">
+        LinkedIn ↗
+      </a>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero" id="home">
+      <p class="eyebrow">
+        <span class="pulse"></span>
+        OPEN TO LEARNING & BUILDING
+      </p>
+
+      <h1>
+        Breaking things.<br>
+        <span class="gradient">Understanding why.</span>
+      </h1>
+
+      <p class="intro">
+        I'm Vansh, a computer science student exploring web security,
+        cybersecurity and software development — one project at a time.
+      </p>
+
+      <div class="actions">
+        <a class="primary" href="#projects">Explore my work ↘</a>
+
+        <a class="secondary"
+           href="https://github.com/vanshduhoon7"
+           target="_blank"
+           rel="noopener noreferrer">
+          View GitHub ↗
+        </a>
+      </div>
+
+      <div class="terminal">
+        <div class="terminal-head">
+          <span></span>
+          <span></span>
+          <span></span>
+          <small>vansh@portfolio:~</small>
+        </div>
+
+        <div class="terminal-body">
+          <p><span class="green">$</span> whoami</p>
+
+          <p class="terminal-output">
+            A student who loves figuring out how things work.
+          </p>
+
+          <p>
+            <span class="green">$</span>
+            <span id="typed">learning web security</span>
+            <span class="cursor">_</span>
+          </p>
+        </div>
+      </div>
+
+      <div class="scroll-note">SCROLL TO EXPLORE ↓</div>
+    </section>
+
+    <section id="about" class="section">
+      <p class="eyebrow">01 / ABOUT</p>
+
+      <h2>
+        Curious by nature.<br>
+        Technical by practice.
+      </h2>
+
+      <p class="section-copy">
+        I'm building my foundations in networking, Linux, Python and web
+        security. I learn by experimenting, solving challenges and making
+        projects that help me understand concepts beyond the theory.
+      </p>
+    </section>
+
+    <section id="projects" class="section">
+      <p class="eyebrow">02 / FEATURED PROJECTS</p>
+
+      <h2>
+        Building things<br>
+        that matter.
+      </h2>
+
+      <p class="section-copy">
+        A selection of projects where I turn ideas into working
+        software, collaborate with others and solve real problems.
+      </p>
+
+      <div class="project-grid">
+        <article class="project-card">
+          <span class="project-number">01 / TEAM PROJECT</span>
+
+          <h3>Hashcam</h3>
+
+          <p>
+            A collaborative project developed with a focus on
+            building a practical, working solution. Explore the
+            source code to learn more about its implementation.
+          </p>
+
+          <a href="https://github.com/vanshduhoon7/hashcam"
+             target="_blank"
+             rel="noopener noreferrer">
+            Explore Hashcam ↗
+          </a>
+        </article>
+
+        <article class="project-card">
+          <span class="project-number">02 / WEB PLATFORM</span>
+
+          <h3>Compete-Hub</h3>
+
+          <p>
+            A platform designed to help users discover competitions
+            and opportunities in one place, making them easier to find.
+          </p>
+
+          <a href="https://github.com/vanshduhoon7"
+             target="_blank"
+             rel="noopener noreferrer">
+            Explore on GitHub ↗
+          </a>
+        </article>
+      </div>
+
+      <p class="note">
+        Currently learning, building and improving with every project.
+      </p>
+    </section>
+
+    <section id="journey" class="section">
+      <p class="eyebrow">03 / CURRENTLY LEARNING</p>
+
+      <h2>The journey matters.</h2>
+
+      <div class="journey-list">
+        <div>
+          <span>01</span>
+          <p>
+            <b>Web security</b><br>
+            Understanding vulnerabilities and how to prevent them.
+          </p>
+        </div>
+
+        <div>
+          <span>02</span>
+          <p>
+            <b>Networking & Linux</b><br>
+            Building strong foundations for security work.
+          </p>
+        </div>
+
+        <div>
+          <span>03</span>
+          <p>
+            <b>CTFs & reverse engineering</b><br>
+            Learning through hands-on challenges.
+          </p>
+        </div>
+
+        <div>
+          <span>04</span>
+          <p>
+            <b>Python scripting</b><br>
+            Writing small tools to automate useful tasks.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <a class="logo" href="#home">
+      Vansh<span class="logo-dot">_</span>
+    </a>
+
+    <p>Built with curiosity and a little bit of caffeine.</p>
+
+    <a href="https://github.com/vanshduhoon7"
+       target="_blank"
+       rel="noopener noreferrer">
+      GitHub ↗
+    </a>
+
+    <small>© <span id="year"></span> Vansh</small>
+  </footer>
+</body>
+</html>
