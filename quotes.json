@@ -1,0 +1,26 @@
+{
+  "quotes": [
+    {
+      "text": "Push through the pain. Giving up hurts more.",
+      "character": "Vegeta",
+      "anime": "Dragon Ball Z",
+      "description": "A testament to Vegeta’s relentless pride, discipline, and sheer willpower."
+    },
+    {
+      "text": "When you give up, that's when the game ends.",
+      "character": "Mitsuyoshi Anzai",
+      "anime": "Slam Dunk",
+      "description": "Coach Anzai's timeless advice to never surrender before the final whistle blows."
+    },
+    {
+      "text": "Whatever you lose, you'll find it again. But what you throw away you'll never get back.",
+      "character": "Himura Kenshin",
+      "anime": "Rurouni Kenshin"
+    },
+    {
+      "text": "Wake up to reality! Nothing ever goes as planned in this accursed world. The longer you live, the more you realize that in this reality, only pain, suffering, and futility exist.",
+      "character": "Madara Uchiha",
+      "anime": "Naruto Shippuden"
+    }
+  ]
+}
