@@ -214,3 +214,18 @@ footer small { width: 100%; }
   }
 }
 
+
+.nav-socials {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 650px) {
+  .nav-socials {
+    display: none;
+  }
+}
+
+
