@@ -4,10 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#050914">
-  <meta name="description" content="Vansh's personal portfolio — web security, cybersecurity, Linux, and software projects.">
-
-  <title>Vansh | Developer &amp; Security Learner</title>
-
+  <meta name="description" content="Vansh's portfolio: a beginner cybersecurity learner exploring web security, CTFs, Linux and building projects.">
+  <title>Vansh | Cybersecurity Learner</title>
   <link rel="stylesheet" href="./style.css">
   <script src="./script.js" defer></script>
 </head>
@@ -15,227 +13,244 @@
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
 
-  <header class="site-header">
-    <!-- Decorative desktop-style status bar. Only the clock shows real data (your browser's local time). -->
-    <div class="hud">
-      <div class="wrap hud-inner">
-        <div class="hud-left">
-          <span class="hud-item hud-user">VANSH@PORTFOLIO</span>
-          <span class="hud-item"><i class="hud-dot" aria-hidden="true"></i>SYSTEM ONLINE</span>
-        </div>
-        <div class="hud-right">
-          <span class="hud-item hud-env">ENV: PORTFOLIO</span>
-          <span class="hud-item hud-clock" title="Local time from your browser"><span id="hud-clock">--:--:--</span></span>
-        </div>
+  <!-- Waybar-style status bar. Only the clock is real (browser local time). -->
+  <header class="bar">
+    <div class="bar-in">
+      <a class="brand" href="#home" aria-label="Vansh, back to top">Vansh<span class="us" aria-hidden="true">_</span></a>
+      <nav class="ws" aria-label="Workspaces">
+        <a href="#home" class="active"><b>1</b><span>home</span></a>
+        <a href="#about"><b>2</b><span>about</span></a>
+        <a href="#projects"><b>3</b><span>projects</span></a>
+        <a href="#lab"><b>4</b><span>lab</span></a>
+        <a href="#skills"><b>5</b><span>skills</span></a>
+        <a href="#focus"><b>6</b><span>focus</span></a>
+        <a href="#contact"><b>7</b><span>contact</span></a>
+      </nav>
+      <div class="bar-r">
+        <span class="env">ENV: PORTFOLIO</span>
+        <span class="clock" title="Local time from your browser"><i class="dot" aria-hidden="true"></i><span id="clock">--:--</span></span>
       </div>
     </div>
-
-    <nav class="nav" aria-label="Main navigation">
-      <div class="wrap nav-inner">
-        <a class="logo" href="#home" aria-label="Vansh home">Vansh<span class="logo-dot" aria-hidden="true">_</span></a>
-
-        <button class="nav-toggle" id="nav-toggle" type="button"
-                aria-expanded="false" aria-controls="nav-menu">
-          <span class="nav-toggle-label">menu</span>
-        </button>
-
-        <div class="nav-menu" id="nav-menu">
-          <ul class="nav-links">
-            <li><a href="#home">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#projects">Projects</a></li>
-            <li><a href="#journey">Cyber Journey</a></li>
-          </ul>
-          <ul class="nav-socials">
-            <li>
-              <a class="nav-cta" href="https://github.com/vanshduhoon7"
-                 target="_blank" rel="noopener noreferrer">GitHub ↗</a>
-            </li>
-            <li>
-              <a class="nav-cta" href="https://www.linkedin.com/in/vanshduhoon7/"
-                 target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
   </header>
 
   <main id="main" tabindex="-1">
+
+    <!-- 1 / HOME -->
     <section class="hero" id="home">
-      <canvas id="cyber-canvas" class="cyber-canvas" aria-hidden="true"></canvas>
-      <div class="cursor-glow" aria-hidden="true"></div>
+      <div class="sky" aria-hidden="true">
+        <div class="stars"></div>
+        <div class="moon"></div>
+        <div class="ridge"></div>
+      </div>
 
-      <div class="wrap hero-inner">
-        <div class="hero-text">
-          <p class="eyebrow rise" style="--d:0s">
-            <span class="pulse" aria-hidden="true"></span>
-            OPEN TO LEARNING &amp; BUILDING
-          </p>
-
-          <h1 class="rise" style="--d:.1s">
-            <span class="glitch" data-text="Breaking things.">Breaking things.</span><br>
-            <span class="gradient">Understanding why.</span>
-          </h1>
-
-          <p class="intro rise" style="--d:.2s">
-            I'm Vansh, a computer science student exploring web security,
-            cybersecurity and software development — one project at a time.
-          </p>
-
-          <div class="actions rise" style="--d:.3s">
-            <a class="btn primary" href="#projects">Explore my work ↘</a>
-            <a class="btn secondary" href="https://github.com/vanshduhoon7"
-               target="_blank" rel="noopener noreferrer">View GitHub ↗</a>
+      <div class="wrap desk">
+        <article class="win intro rise" style="--d:0s" data-win>
+          <div class="win-bar"><button class="wdot" type="button" aria-label="Collapse window" aria-expanded="true"></button><span class="wdot2"></span><span class="wdot3"></span><small>~/vansh/intro.md</small></div>
+          <div class="win-body">
+            <p class="eyebrow">beginner · web security · ctf · linux rice</p>
+            <h1>Breaking things,<br><span class="gradient">legally and on purpose.</span></h1>
+            <p class="lead">I'm Vansh, a B.Tech AI/ML student teaching myself cybersecurity. Web security first, bug bounties someday, and a suspicious amount of Linux tinkering on the side.</p>
+            <div class="actions">
+              <a class="btn primary" href="#projects">See my projects ↘</a>
+              <a class="btn ghost" href="#term">Try the terminal</a>
+            </div>
           </div>
-        </div>
+        </article>
 
-        <div class="terminal rise" style="--d:.4s">
-          <div class="terminal-head">
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-            <small>vansh@portfolio:~</small>
+        <article class="win term rise" style="--d:.12s" id="term" data-win>
+          <div class="win-bar"><button class="wdot" type="button" aria-label="Collapse window" aria-expanded="true"></button><span class="wdot2"></span><span class="wdot3"></span><small>vansh@portfolio:~</small></div>
+          <div class="win-body">
+            <div class="term-out" id="term-out" role="log" aria-live="polite" tabindex="0" aria-label="Terminal output">
+              <div class="line"><span class="prompt">$</span> help</div>
+              <div class="line dim">Commands: help, about, projects, skills, journey, contact, whoami, motto, clear</div>
+              <div class="line dim">Everything here is pre-written text. Nothing runs on your device.</div>
+            </div>
+            <div class="chips" id="term-chips" hidden>
+              <button type="button" data-cmd="help">help</button>
+              <button type="button" data-cmd="about">about</button>
+              <button type="button" data-cmd="projects">projects</button>
+              <button type="button" data-cmd="skills">skills</button>
+              <button type="button" data-cmd="journey">journey</button>
+              <button type="button" data-cmd="contact">contact</button>
+            </div>
+            <form class="term-form" id="term-form" hidden autocomplete="off">
+              <label for="term-in" class="prompt">$</label>
+              <input id="term-in" type="text" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" enterkeyhint="send" placeholder="type a command, then Enter">
+            </form>
           </div>
+        </article>
 
-          <div class="terminal-body">
-            <p><span class="prompt">$</span> whoami</p>
-            <p class="terminal-output">A student who loves figuring out how things work.</p>
-
-            <p><span class="prompt">$</span> <span id="typed">learning web security</span><span class="cursor" aria-hidden="true">_</span></p>
-
-            <p class="terminal-output sample-label">// sample output (decorative, nothing is executed)</p>
-            <dl class="profile">
+        <article class="win card rise" style="--d:.24s" data-win>
+          <div class="win-bar"><button class="wdot" type="button" aria-label="Collapse window" aria-expanded="true"></button><span class="wdot2"></span><span class="wdot3"></span><small>profile.txt</small></div>
+          <div class="win-body">
+            <dl class="kv">
               <div><dt>user</dt><dd>vansh</dd></div>
-              <div><dt>role</dt><dd>computer science student</dd></div>
-              <div><dt>focus</dt><dd>web security · networking · linux</dd></div>
-              <div><dt>status</dt><dd>learning, building, improving</dd></div>
+              <div><dt>study</dt><dd>B.Tech AI &amp; ML (expected 2029)</dd></div>
+              <div><dt>level</dt><dd>beginner, exploring</dd></div>
+              <div><dt>focus</dt><dd>web security · CTFs · Linux</dd></div>
+              <div><dt>motto</dt><dd>Everything is temporary.</dd></div>
             </dl>
+            <p class="fine">// static profile card, not live system info</p>
           </div>
-        </div>
-
-        <div class="scroll-note">SCROLL TO EXPLORE ↓</div>
+        </article>
       </div>
     </section>
 
-    <section id="about" class="section">
+    <!-- 2 / ABOUT -->
+    <section class="sec" id="about">
       <div class="wrap">
-        <p class="eyebrow reveal">01 / ABOUT</p>
-
-        <h2 class="reveal">
-          Curious by nature.<br>
-          Technical by practice.
-        </h2>
-
-        <p class="section-copy reveal">
-          I'm building my foundations in networking, Linux, Python and web
-          security. I learn by experimenting, solving challenges and making
-          projects that help me understand concepts beyond the theory.
-        </p>
-
-        <ul class="tags reveal" aria-label="Areas of interest">
-          <li>web security</li>
-          <li>networking</li>
-          <li>linux</li>
-          <li>python</li>
-          <li>ctfs</li>
-        </ul>
-      </div>
-    </section>
-
-    <section id="projects" class="section">
-      <div class="wrap">
-        <p class="eyebrow reveal">02 / FEATURED PROJECTS</p>
-
-        <h2 class="reveal">
-          Building things<br>
-          that matter.
-        </h2>
-
-        <p class="section-copy reveal">
-          A selection of projects where I turn ideas into working
-          software, collaborate with others and solve real problems.
-        </p>
-
-        <div class="project-grid">
-          <article class="project-card reveal">
-            <span class="project-number">01 / TEAM PROJECT</span>
-            <h3>Hashcam</h3>
-            <p>
-              A collaborative project developed with a focus on
-              building a practical, working solution. Explore the
-              source code to learn more about its implementation.
-            </p>
-            <a class="card-link" href="https://github.com/vanshduhoon7/hashcam"
-               target="_blank" rel="noopener noreferrer"
-               aria-label="Explore Hashcam on GitHub (opens in a new tab)">
-              Explore Hashcam ↗
-            </a>
+        <p class="eyebrow reveal">02 / about</p>
+        <h2 class="reveal">Curious first.<br>Qualified later.</h2>
+        <div class="grid2">
+          <article class="win reveal" data-win>
+            <div class="win-bar"><button class="wdot" type="button" aria-label="Collapse window" aria-expanded="true"></button><span class="wdot2"></span><span class="wdot3"></span><small>about.md</small></div>
+            <div class="win-body prose">
+              <p>Hi, I'm Vansh. I'm a B.Tech student in Artificial Intelligence and Machine Learning (class of 2029) who wandered into cybersecurity and decided to stay a while.</p>
+              <p>I'm a beginner, and I'm fine saying so out loud. Right now I'm sampling a bit of everything (web, Linux, networking, CTFs, reverse engineering) to find out which rabbit holes I actually enjoy.</p>
+              <p>The one pulling hardest is web security. Bug bounty hunting is the long-term itch. The short-term plan: keep learning, keep breaking lab machines (legally), keep building.</p>
+            </div>
           </article>
-
-          <article class="project-card reveal" style="--i:1">
-            <span class="project-number">02 / WEB PLATFORM</span>
-            <h3>Compete-Hub</h3>
-            <p>
-              A platform designed to help users discover competitions
-              and opportunities in one place, making them easier to find.
-            </p>
-            <a class="card-link" href="https://github.com/vanshduhoon7"
-               target="_blank" rel="noopener noreferrer"
-               aria-label="Explore Compete-Hub on GitHub (opens in a new tab)">
-              Explore on GitHub ↗
-            </a>
+          <article class="win quote reveal" style="--i:1" data-win>
+            <div class="win-bar"><button class="wdot" type="button" aria-label="Collapse window" aria-expanded="true"></button><span class="wdot2"></span><span class="wdot3"></span><small>motto.txt</small></div>
+            <div class="win-body">
+              <blockquote>“Everything is temporary.”</blockquote>
+              <p class="fine">Bugs, broken configs, stuck challenges. All of it.</p>
+            </div>
           </article>
         </div>
-
-        <p class="note reveal">
-          Currently learning, building and improving with every project.
-        </p>
       </div>
     </section>
 
-    <section id="journey" class="section">
+    <!-- 3 / PROJECTS -->
+    <section class="sec" id="projects">
       <div class="wrap">
-        <p class="eyebrow reveal">03 / CURRENTLY LEARNING</p>
+        <p class="eyebrow reveal">03 / projects</p>
+        <h2 class="reveal">Things I'm building<br>(some finished, some not).</h2>
+        <div class="grid2">
+          <article class="win proj reveal" data-win>
+            <div class="win-bar"><button class="wdot" type="button" aria-label="Collapse window" aria-expanded="true"></button><span class="wdot2"></span><span class="wdot3"></span><small>hashcam/</small></div>
+            <div class="win-body">
+              <span class="tag">hackathon team project</span>
+              <h3>Hashcam</h3>
+              <p>Built with a team during a hackathon. It monitors AI-agent activity and aims to stop agents from harming user data, credentials or funds.</p>
+              <a class="link" href="https://github.com/vanshduhoon7/hashcam" target="_blank" rel="noopener noreferrer" aria-label="Hashcam on GitHub (opens in a new tab)">View on GitHub ↗</a>
+            </div>
+          </article>
+          <article class="win proj reveal" style="--i:1" data-win>
+            <div class="win-bar"><button class="wdot" type="button" aria-label="Collapse window" aria-expanded="true"></button><span class="wdot2"></span><span class="wdot3"></span><small>compete-hub/</small></div>
+            <div class="win-body">
+              <span class="tag">in development</span>
+              <h3>Compete-Hub</h3>
+              <p>A platform meant to gather CTFs, hackathons and competitions from different platforms in one place. I'm building it with AI-assisted development. Not finished, not deployed.</p>
+              <a class="link" href="https://github.com/vanshduhoon7/Compete-hub" target="_blank" rel="noopener noreferrer" aria-label="Compete-Hub on GitHub (opens in a new tab)">View on GitHub ↗</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
 
-        <h2 class="reveal">The journey matters.</h2>
+    <!-- 4 / LAB JOURNEY -->
+    <section class="sec" id="lab">
+      <div class="wrap">
+        <p class="eyebrow reveal">04 / learning &amp; lab journey</p>
+        <h2 class="reveal">Where the practice happens.</h2>
+        <ol class="steps">
+          <li class="reveal">
+            <span class="tag">practiced</span>
+            <h3>Web security labs</h3>
+            <p>PortSwigger labs, solved with hints and learning resources, covering topics up to business logic vulnerabilities. Hints are allowed. That's how you learn.</p>
+          </li>
+          <li class="reveal" style="--i:1">
+            <span class="tag">practiced</span>
+            <h3>CTFs</h3>
+            <p>Easy-level challenges completed so far. Medium is on the horizon, politely ignoring me.</p>
+          </li>
+          <li class="reveal" style="--i:2">
+            <span class="tag">in progress</span>
+            <h3>Linux, networking &amp; Python</h3>
+            <p>Getting comfortable in Linux/Kali, learning how networks actually work, and writing Python to automate things.</p>
+          </li>
+          <li class="reveal" style="--i:3">
+            <span class="tag hard">hard mode</span>
+            <h3>Reverse engineering</h3>
+            <p>Currently the boss fight I'm losing. It's the area I most want to get better at.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
 
-        <div class="journey-list">
-          <div class="reveal">
-            <span aria-hidden="true">01</span>
-            <p><b>Web security</b><br>Understanding vulnerabilities and how to prevent them.</p>
-          </div>
+    <!-- 5 / SKILLS -->
+    <section class="sec" id="skills">
+      <div class="wrap">
+        <p class="eyebrow reveal">05 / skills &amp; tools</p>
+        <h2 class="reveal">Learning / Exploring</h2>
+        <p class="lead reveal">No proficiency bars. I'm a beginner, and the bars would be lying.</p>
+        <div class="grid3">
+          <article class="win reveal" data-win>
+            <div class="win-bar"><button class="wdot" type="button" aria-label="Collapse window" aria-expanded="true"></button><span class="wdot2"></span><span class="wdot3"></span><small>system/</small></div>
+            <div class="win-body"><ul class="tags"><li>Linux</li><li>Kali Linux</li><li>Networking</li><li>Linux rice</li></ul></div>
+          </article>
+          <article class="win reveal" style="--i:1" data-win>
+            <div class="win-bar"><button class="wdot" type="button" aria-label="Collapse window" aria-expanded="true"></button><span class="wdot2"></span><span class="wdot3"></span><small>web/</small></div>
+            <div class="win-body"><ul class="tags"><li>Web security</li><li>Burp Suite</li><li>PortSwigger labs</li></ul></div>
+          </article>
+          <article class="win reveal" style="--i:2" data-win>
+            <div class="win-bar"><button class="wdot" type="button" aria-label="Collapse window" aria-expanded="true"></button><span class="wdot2"></span><span class="wdot3"></span><small>challenges/</small></div>
+            <div class="win-body"><ul class="tags"><li>CTF practice</li><li>Forensics</li><li>Reverse engineering</li></ul></div>
+          </article>
+          <article class="win reveal" data-win>
+            <div class="win-bar"><button class="wdot" type="button" aria-label="Collapse window" aria-expanded="true"></button><span class="wdot2"></span><span class="wdot3"></span><small>code/</small></div>
+            <div class="win-body"><ul class="tags"><li>Python</li><li>AI &amp; ML (via my degree)</li></ul></div>
+          </article>
+          <article class="win reveal" style="--i:1" data-win>
+            <div class="win-bar"><button class="wdot" type="button" aria-label="Collapse window" aria-expanded="true"></button><span class="wdot2"></span><span class="wdot3"></span><small>building/</small></div>
+            <div class="win-body"><ul class="tags"><li>Hackathon team projects</li><li>AI-assisted development</li></ul></div>
+          </article>
+        </div>
+      </div>
+    </section>
 
-          <div class="reveal" style="--i:1">
-            <span aria-hidden="true">02</span>
-            <p><b>Networking &amp; Linux</b><br>Building strong foundations for security work.</p>
-          </div>
+    <!-- 6 / INTERESTS + FOCUS -->
+    <section class="sec" id="focus">
+      <div class="wrap">
+        <p class="eyebrow reveal">06 / interests &amp; current focus</p>
+        <h2 class="reveal">What I do when nobody's assigning homework.</h2>
+        <div class="grid2">
+          <article class="win reveal" data-win>
+            <div class="win-bar"><button class="wdot" type="button" aria-label="Collapse window" aria-expanded="true"></button><span class="wdot2"></span><span class="wdot3"></span><small>interests.txt</small></div>
+            <div class="win-body"><ul class="tags"><li>Web security</li><li>Bug bounty hunting</li><li>CTFs</li><li>Linux customization</li><li>Building projects</li><li>Tech communities</li><li>Hackathons</li><li>Gaming</li></ul></div>
+          </article>
+          <article class="win reveal" style="--i:1" data-win>
+            <div class="win-bar"><button class="wdot" type="button" aria-label="Collapse window" aria-expanded="true"></button><span class="wdot2"></span><span class="wdot3"></span><small>now.md</small></div>
+            <div class="win-body prose"><p>Right now: Linux/Kali, networking, Python, web security, Burp Suite, forensics, reverse engineering and CTF practice.</p><p>Next stop: keep exploring cybersecurity and work toward web security and bug bounty hunting.</p></div>
+          </article>
+        </div>
+      </div>
+    </section>
 
-          <div class="reveal" style="--i:2">
-            <span aria-hidden="true">03</span>
-            <p><b>CTFs &amp; reverse engineering</b><br>Learning through hands-on challenges.</p>
-          </div>
-
-          <div class="reveal" style="--i:3">
-            <span aria-hidden="true">04</span>
-            <p><b>Python scripting</b><br>Writing small tools to automate useful tasks.</p>
-          </div>
+    <!-- 7 / CONTACT -->
+    <section class="sec" id="contact">
+      <div class="wrap">
+        <p class="eyebrow reveal">07 / contact</p>
+        <h2 class="reveal">Say hi.</h2>
+        <div class="grid2">
+          <a class="win link-win reveal" href="https://github.com/vanshduhoon7" target="_blank" rel="noopener noreferrer" aria-label="Vansh on GitHub (opens in a new tab)">
+            <div class="win-bar"><span class="wdot"></span><span class="wdot2"></span><span class="wdot3"></span><small>github</small></div>
+            <div class="win-body"><b>GitHub ↗</b><span>github.com/vanshduhoon7</span></div>
+          </a>
+          <a class="win link-win reveal" style="--i:1" href="https://www.linkedin.com/in/vanshduhoon7/" target="_blank" rel="noopener noreferrer" aria-label="Vansh on LinkedIn (opens in a new tab)">
+            <div class="win-bar"><span class="wdot"></span><span class="wdot2"></span><span class="wdot3"></span><small>linkedin</small></div>
+            <div class="win-body"><b>LinkedIn ↗</b><span>linkedin.com/in/vanshduhoon7</span></div>
+          </a>
         </div>
       </div>
     </section>
   </main>
 
   <footer class="footer">
-    <div class="wrap footer-inner">
-      <a class="logo" href="#home" aria-label="Back to top">Vansh<span class="logo-dot" aria-hidden="true">_</span></a>
-
-      <p class="footer-note">Built with curiosity and a little bit of caffeine.</p>
-
-      <p class="footer-links">
-        <a href="https://github.com/vanshduhoon7" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
-        <a href="https://www.linkedin.com/in/vanshduhoon7/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
-      </p>
-
+    <div class="wrap foot">
+      <a class="brand" href="#home" aria-label="Back to top">Vansh<span class="us" aria-hidden="true">_</span></a>
+      <p>Everything is temporary.</p>
       <small>© <span id="year">2026</span> Vansh</small>
     </div>
   </footer>
